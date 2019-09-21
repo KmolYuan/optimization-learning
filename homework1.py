@@ -7,13 +7,15 @@ from scipy.optimize import minimize
 from mpl_toolkits.mplot3d import Axes3D
 
 
-def f(args: Tuple[float, float]) -> float:
+def f1(args: Tuple[float, float]) -> float:
+    """(x2 - x1) ** 4 + 8 * x1 * x2 - x1 + x2 + 3"""
     x1, x2 = args
     t = x2 - x1
     return t * t * t * t + t + 8 * x1 * x2 + 3
 
 
-def g(args: Tuple[float, float]) -> float:
+def g1(args: Tuple[float, float]) -> float:
+    """x1 ** 4 - 2 * x2 * x1 ** 2 + x2 ** 2 + x1 ** 2 - 2 * x1"""
     x1, x2 = args
     x1_2 = x1 * x1
     return x1_2 * x1_2 + (1 + 2 * x2) * x1_2 + x2 * x2 - 2 * x1
@@ -22,16 +24,19 @@ def g(args: Tuple[float, float]) -> float:
 def plot3d(
     func: Callable[[Tuple[float, float]], float],
     start: float,
-    stop: float
+    stop: float,
+    label1: str = "x1",
+    label2: str = "x2",
+    label3: str = "f(x)"
 ) -> None:
     x = []
     y = []
     z = []
-    for x1 in arange(start, stop, 0.05):
+    for x1 in arange(start, stop, 0.01):
         row_x = []
         row_y = []
         row_z = []
-        for x2 in arange(start, stop, 0.05):
+        for x2 in arange(start, stop, 0.01):
             row_x.append(x1)
             row_y.append(x2)
             row_z.append(func((x1, x2)))
@@ -48,27 +53,34 @@ def plot3d(
 
     fig = pylab.figure()
     ax = Axes3D(fig)
-    ax.set_xlabel('$x1$')
-    ax.set_ylabel('$x2$')
-    ax.set_zlabel('$f(x)$')
+    ax.set_xlabel(f"${label1}$")
+    ax.set_ylabel(f"${label2}$")
+    ax.set_zlabel(f"${label3}$")
     ax.plot_surface(x, y, z)
     pylab.show()
 
 
 def task1() -> None:
-    plot3d(f, -2, 2)
+    plot3d(f1, -2, 2)
+    plot3d(g1, -2, 2, label3="g(x)")
     # Optimization
-    res = minimize(f, array([0.28, -0.77]), method='SLSQP', constraints={'type': 'ineq', 'fun': g})
+    res = minimize(f1, array([0.28, -0.77]), method='SLSQP', constraints={'type': 'ineq', 'fun': g1})
     if res.success:
         print(f"(1) f{tuple(res.x)} => {res.fun}")
     else:
         print("(1) failed")
 
 
+def f2(args: Tuple[float, float]) -> float:
+    x1, x2 = args
+    return 88.9 * x1 * x2
+
+
 def task2() -> None:
+    plot3d(f2, -2, 2, 'd', 't')
     # Optimization
     res = minimize(
-        lambda x: 88.9 * x[0] * x[1],
+        f2,
         array([0.99, 0.08]),
         method='SLSQP',
         constraints=(
@@ -83,7 +95,7 @@ def task2() -> None:
         print("(2) failed")
 
 
-def f_x(args: Tuple[float, float]) -> float:
+def f3(args: Tuple[float, float]) -> float:
     x1, x2 = args
     x1_2 = x1 * x1
     x2_2 = x2 * x2
@@ -91,9 +103,9 @@ def f_x(args: Tuple[float, float]) -> float:
 
 
 def task3() -> None:
-    plot3d(f_x, -4, 6)
+    plot3d(f3, -4, 6)
     # Optimization
-    res = minimize(f_x, array([1., 1.]), method='SLSQP')
+    res = minimize(f3, array([1., 1.]), method='SLSQP')
     if res.success:
         print(f"(3) f{tuple(res.x)} => {res.fun}")
     else:
