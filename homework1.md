@@ -12,11 +12,11 @@ This PDF is generated from Markdown[@homework1-md], scripping in Python[@homewor
 
 1. $f(x) = (x_2 - x_1)^4 + 8 x_1 x_2 - x_1 + x_2 + 3$ in the interval $-2 \le x_i \le 2$.
 
-    ![](img/homework1-1-1.png){.class width=70%}
+    ![](img/homework1-1-1.png){width=70%}
 
 2. $f(x)$ as above and the constraint $g(x) = x_1^4 - 2 x_2 x_1^2 + x_2^2 + x_1^2 - 2 x_1 \ge 0$.
 
-    ![](img/homework1-1-2.png){.class width=70%}
+    ![](img/homework1-1-2.png){width=70%}
 
     Found minimum $1.4436$ at $(0.2839, -0.7785)$ with SLSQP (Sequential Least SQuares Programming) algorithm[@slsqp].
     The original minimum $0.9441$ is at $(0.55, -0.56)$.
