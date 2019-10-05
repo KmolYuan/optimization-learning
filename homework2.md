@@ -40,7 +40,7 @@ This PDF is generated from Markdown[@homework2-md], scripping in Python[@homewor
     $$f'(x) = \frac{x^2+1}{x^2}e^{\frac{x^2-1}{x}}$$
 
     Because of $x^2$ and $e^{\frac{x^2-1}{x}}$ must greater than zero,
-    so the function is decreasing monotonic $f(x^+)$.
+    so the function is increasing monotonic $f(x^+)$.
     The plot looks like:
 
     ![](img/homework2-2.png){width=75%}
@@ -53,14 +53,14 @@ This PDF is generated from Markdown[@homework2-md], scripping in Python[@homewor
 
     The exponential function returns always positive, so:
 
-    + If $a<b$, the function is $f(t^+)$.
-    + If $a>b$, the function is $f(t^-)$.
+    + If $a<b$, the function is increasing monotonic $f(t^+)$.
+    + If $a>b$, the function is decreasing monotonic $f(t^-)$.
 
 # Well-Boundedness
 
 $$
 \begin{aligned}
-\text{minimize } f & = x_1 - x_2
+\text{maximize } f & = x_1 - x_2
 \\
 \text{subject to } g_1 & = 2x_1 + 3x_2 - 10 \le 0
 \\
@@ -72,7 +72,7 @@ $$
 
 Minimize $-f$ has same result of this objective function,
 where $-f = -x_1 + x_2$.
-The monotonicity table:
+The monotonicity table shown as:
 
 |   | $x_1$ | $x_2$ |
 |:---:|:---:|:-----:|
@@ -85,5 +85,11 @@ By MP1, w.r.t $x_1$ and $g_1$ is active, w.r.t $x_2$ and $g_2$ is active.
 Solving $g_1=0$ and $g_2=0$, get $x_1=-\frac{14}{11}$ and $x_2=\frac{46}{11}$.
 
 But the results are not feasible with $g_3$.
+Since the Monotonicity Principles are only applicable with well-constrained minimization problem.
+w.r.t $x_1$ and $g_1$ is active, makes $g_1=0$ to eliminate $x_1$, we got:
+
+$$
+
+$$
 
 # Reference
