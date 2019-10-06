@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from typing import Tuple, Callable
+from typing import Tuple, Callable, Sequence, Optional
 import pylab
 from numpy import arange, array, where
 from scipy.optimize import minimize
@@ -22,47 +22,68 @@ def g1(args: Tuple[float, float]) -> float:
 
 
 def plot3d(
-    func: Callable[[Tuple[float, float]], float],
+    funcs: Sequence[Callable[[Tuple[float, float]], float]],
     start: float,
     stop: float,
     label1: str = "x1",
     label2: str = "x2",
-    label3: str = "f(x)"
+    label3: str = "f(x)",
+    mark: Optional[Tuple[float, float]] = None
 ) -> None:
-    x = []
-    y = []
-    z = []
-    for x1 in arange(start, stop, 0.01):
-        row_x = []
-        row_y = []
-        row_z = []
-        for x2 in arange(start, stop, 0.01):
-            row_x.append(x1)
-            row_y.append(x2)
-            row_z.append(func((x1, x2)))
-        x.append(row_x)
-        y.append(row_y)
-        z.append(row_z)
-    x = array(x)
-    y = array(y)
-    z = array(z)
-    min_xy = where(z == z.min())
-    i = min_xy[0][0]
-    j = min_xy[1][0]
-    print(f"min={(x[i, j], y[i, j], z[i, j])}")
-
     fig = pylab.figure()
     ax = Axes3D(fig)
-    ax.set_xlabel(f"${label1}$")
-    ax.set_ylabel(f"${label2}$")
-    ax.set_zlabel(f"${label3}$")
-    ax.plot_surface(x, y, z)
+    for f, func in enumerate(funcs):
+        x = []
+        y = []
+        z = []
+        for x1 in arange(start, stop, 0.01):
+            row_x = []
+            row_y = []
+            row_z = []
+            for x2 in arange(start, stop, 0.01):
+                row_x.append(x1)
+                row_y.append(x2)
+                row_z.append(func((x1, x2)))
+            x.append(row_x)
+            y.append(row_y)
+            z.append(row_z)
+        x = array(x)
+        y = array(y)
+        z = array(z)
+        min_xy = where(z == z.min())
+        i = min_xy[0][0]
+        j = min_xy[1][0]
+        print(f"min={(x[i, j], y[i, j], z[i, j])}")
+        ax.set_xlabel(f"${label1}$")
+        ax.set_ylabel(f"${label2}$")
+        ax.set_zlabel(f"${label3}$")
+        ax.plot_surface(x, y, z)
+        if mark is not None:
+            ax.plot(
+                [mark[0]],
+                [mark[1]],
+                [func(mark)],
+                markerfacecolor='r',
+                markeredgecolor='r',
+                marker='o',
+                markersize=5
+            )
+        elif f == 0:
+            ax.plot(
+                [x[i, j]],
+                [y[i, j]],
+                [z[i, j]],
+                markerfacecolor='r',
+                markeredgecolor='r',
+                marker='o',
+                markersize=5
+            )
     pylab.show()
 
 
 def task1() -> None:
-    plot3d(f1, -2, 2)
-    plot3d(g1, -2, 2, label3="g(x)")
+    plot3d((f1,), -2, 2)
+    plot3d((f1, g1), -2, 2, label3="f(x), g(x)")
     # Optimization
     res = minimize(f1, array([0.28, -0.77]), method='SLSQP', constraints={'type': 'ineq', 'fun': g1})
     if res.success:
@@ -77,7 +98,7 @@ def f2(args: Tuple[float, float]) -> float:
 
 
 def task2() -> None:
-    plot3d(f2, -2, 2, 'd', 't')
+    plot3d((f2,), -2, 2, 'd', 't')
     # Optimization
     res = minimize(
         f2,
@@ -103,7 +124,7 @@ def f3(args: Tuple[float, float]) -> float:
 
 
 def task3() -> None:
-    plot3d(f3, -4, 6)
+    plot3d((f3,), -4, 6, mark=(1, 1))
     # Optimization
     res = minimize(f3, array([1., 1.]), method='SLSQP')
     if res.success:
