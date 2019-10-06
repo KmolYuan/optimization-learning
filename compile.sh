@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
-i=0
-for f in *.md; do
-    pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=apa.csl
-    i=$((i+1))
-done
+# Usage:
+# sh compile.sh FILE_NUMBER
 
-echo "Compiled ${i} file(s)."
+BASEDIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")")
+FILE=${BASEDIR}/homework${1}.md
+pandoc "${FILE}" -o $(basename -- "${FILE%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=apa.csl
