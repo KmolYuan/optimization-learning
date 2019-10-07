@@ -4,7 +4,6 @@ from typing import Tuple, Callable
 from math import exp, sqrt
 from numpy import arange
 import matplotlib.pyplot as plt
-from homework1 import plot3d
 
 
 def task1():
@@ -14,6 +13,7 @@ def task1():
         (-10, -1),
         (0.1, 1)
     )
+    # exp(x) / exp(1 / x)
     plot2d(
         lambda x: exp(x - 1 / x),
         (-5, -0.2),
