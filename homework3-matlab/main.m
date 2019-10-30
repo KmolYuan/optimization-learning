@@ -11,9 +11,9 @@ obj = @(x) 2 * l * (3 * pi * x(1) * x(1) + 2 * pi * x(2) * x(2) * sqrt(2));
 init = [1, 1];
 [x, fval, flag, out] = fmincon(obj, init, [], [], [], [], [0, 0], [100, 100], @nonlcon, optimset);
 if flag == 1
-    fprintf("%s (iter: %i, step: %i)\n", out.algorithm, out.iterations, out.stepsize);
+    fprintf("%s (iter: %d, step: %.6f)\n", out.algorithm, out.iterations, out.stepsize);
     fprintf("f(%.6f, %.6f) = %.6f\n", x, fval);
     fprintf("min wieght: %.6f kg\n", fval * rho);
 else
-    fprintf("Error: %i\n", flag);
+    fprintf("Error: %d\n", flag);
 end

@@ -13,17 +13,17 @@ n = [2, 1; 2, 0; 1, 1; 1, 0; 0, 1; 0, 0] * length;
 ec = [3, 5; 1, 3; 4, 6; 2, 4; 3, 4; 1, 2; 4, 5; 3, 6; 2, 3; 1, 4];
 
 % Element table
-l_e(1:10, 1) = NaN;
-l(1:10, 1) = NaN;
-m(1:10, 1) = NaN;
+l_e(1:10, 1) = 0;
+l(1:10, 1) = 0;
+m(1:10, 1) = 0;
 for i = 1:10
-    l_e(i) = sum((n(ec(i, 2), :) - n(ec(i, 1), :)).^2).^0.5;
+    l_e(i) = sqrt(sum((n(ec(i, 2), :) - n(ec(i, 1), :)).^2));
     l(i) = (n(ec(i, 2), 1) - n(ec(i, 1), 1)) / l_e(i);
     m(i) = (n(ec(i, 2), 2) - n(ec(i, 1), 2)) / l_e(i);
 end
 
-A = pi * [r(1) * ones(6, 1); r(2) * ones(4, 1)].^2;
-
+A(1:6, 1) = pi * r(1) * r(1);
+A(7:10, 1) = pi * r(2) * r(2);
 K(1:12, 1:12) = 0;
 for i = 1:10
     k(1:12, 1:12) = 0;
@@ -52,7 +52,8 @@ for i = 1:10
     m_i = m(i, :);
     ec_i1 = ec(i, 1) * 2;
     ec_i2 = ec(i, 2) * 2;
-    stress(i, :) = E / l_e(i, :) * [-l_i, -m_i, l_i, m_i] * [Q(ec_i1 - 1), Q(ec_i1), Q(ec_i2 - 1), Q(ec_i2)]';
+    Qs = [Q(ec_i1 - 1), Q(ec_i1), Q(ec_i2 - 1), Q(ec_i2)]';
+    stress(i, :) = E / l_e(i, :) * [-l_i, -m_i, l_i, m_i] * Qs;
 end
 
 %% Reaction Force on node 5 and node 6 (Unused)
