@@ -143,7 +143,8 @@ The monotonicity table shown as:
 
     With MP1, w.r.t. $x_4$, inequalities $\{g_4, g_5\}$
     is conditionally critical set.
-    With MP2, w.r.t. $x_2$, inequalities $\{g_2, g_3\}$
+    By MP2, w.r.t. $x_2$, it can be directed to $h_2=6$.
+    With MP1, w.r.t. $x_3$, inequalities $\{g_3\}$
     is conditionally critical set.
 
 1. Which constraints are uncritical?
@@ -153,7 +154,11 @@ The monotonicity table shown as:
 
 1. Which constraints are dominant?
 
-    Constraint $g_4$ is dominated by $g_1$, $g_2$ and $g_5$.
+    Possible constraints are $g_3$, $g_4$ and $g_5$.
+
+    Constraint $g_3$ is dominat.
+    Solving $h_2$ and $g_3$ obtains $x_2 \le 4$ then eliminate it at $g_4$ and $g_5$.
+    We got $g_4$ is dominat instead of $g_5$.
 
 1.  Rewrite the model with irrelevant variables deleted and dominated constraints relaxed,
     and indicate critical constraints.
@@ -261,6 +266,6 @@ C1 = 1.105, C2 = 0.6735, C3 = 0.0481, K1 = 1.52, K2 = 16.8, K3 = 9.08,
 K4 = 0.0278, K5 = 0.0943, K6 = 0.125.
 They give the minimizing design as l = 6.72, h = 0.226, b = 0.245, t = 8.27.
 
-    The given parameters and variables are violate the constraints.
+    The given parameters and variables are violate the constraints $g_1$, $g_2$ and $g_5$.
 
 # Reference
