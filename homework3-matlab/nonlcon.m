@@ -2,6 +2,9 @@ function [C, Ceq] = nonlcon(x)
 % this is where ten-bar analysis file should be
 % c has 21 element, 10 tensile stress, 10 buckling, 1 for displacement
 
+% Class: ME7129 Optimization in Engineering, National Taiwan University.
+% Student: Yuan Chang
+
 %% Constants
 persistent vf F E l Pf sigma_y
 if isempty(vf)
@@ -29,6 +32,12 @@ C(7:10) = F(7:10) - P2;
 C(11:20) = stress(1:10) - sigma_y;
 % delta2 - 2 <= 0
 C(21) = Q(vf) - 2;
+
+%% Disabled Inequality Constraint
+global disable
+if disable ~= 0
+    C(disable) = [];
+end
 
 %% Equality Constraints
 Ceq = [];

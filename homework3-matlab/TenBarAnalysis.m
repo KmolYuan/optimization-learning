@@ -1,9 +1,12 @@
 function [Q, stress] = TenBarAnalysis(r, length, E, F)
-% TenBarAnalysis: Calculate stresses in each element by given spec. and force of the truss structure. 
-%   input: radius r (composed of r1, r2), length l, Young's modulus E,
-%   and Force array F.
-%           Array F is composed of the external forces applied on each
-%           node. The elements in F are respectively F1x, F1y, F2x, F2y, F3x, F3y, ...
+% TenBarAnalysis:
+% Calculate stresses in each element by given spec. and force of the truss structure. 
+% input: radius r (composed of r1, r2), length l, Young's modulus E, and force array F.
+% Array F is composed of the external forces applied on each node.
+% The elements in F are respectively F1x, F1y, F2x, F2y, F3x, F3y, ...
+
+% Class: ME7129 Optimization in Engineering, National Taiwan University.
+% Student: Yuan Chang
 
 %% Element Table Construction
 % Node Table
@@ -22,12 +25,13 @@ for i = 1:10
     m(i) = (n(ec(i, 2), 2) - n(ec(i, 1), 2)) / l_e(i);
 end
 
+%% Displacement Calculation (DOF reduced)
 A(1:6, 1) = pi * r(1) * r(1);
 A(7:10, 1) = pi * r(2) * r(2);
 K(1:12, 1:12) = 0;
 for i = 1:10
     k(1:12, 1:12) = 0;
-    k_small = E * A(i) / l_e(i) * [l(i), m(i)]' * [l(i), m(i)];
+    k_small = E * A(i) / l_e(i) * [l(i); m(i)] * [l(i), m(i)];
     ec_i1 = ec(i, 1) * 2;
     ec_i2 = ec(i, 2) * 2;
     k(ec_i1 - 1:ec_i1, ec_i1 - 1:ec_i1) = k_small;
@@ -36,14 +40,7 @@ for i = 1:10
     k(ec_i2 - 1:ec_i2, ec_i1 - 1:ec_i1) = -k_small;
     K = K + k;
 end
-
-%% DOF Reduction
-K_re = K(1:8, 1:8);
-F_re = F(1:8);
-
-%% Displacement Calculation
-Q_re = K_re^-1 * F_re;
-Q = [Q_re; zeros(4, 1)];
+Q = [K(1:8, 1:8)^-1 * F(1:8); zeros(4, 1)];
 
 %% Stress Calculation
 stress(1:10, 1) = 0;
@@ -52,13 +49,11 @@ for i = 1:10
     m_i = m(i, :);
     ec_i1 = ec(i, 1) * 2;
     ec_i2 = ec(i, 2) * 2;
-    Qs = [Q(ec_i1 - 1), Q(ec_i1), Q(ec_i2 - 1), Q(ec_i2)]';
+    Qs = [Q(ec_i1 - 1); Q(ec_i1); Q(ec_i2 - 1); Q(ec_i2)];
     stress(i, :) = E / l_e(i, :) * [-l_i, -m_i, l_i, m_i] * Qs;
 end
 
 %% Reaction Force on node 5 and node 6 (Unused)
-% K_R = K(9:12, :);
-% R = K_R * Q;
-% R = [zeros(8, 1); R];
+% R = [zeros(8, 1); K(9:12, :) * Q];
 
 end
