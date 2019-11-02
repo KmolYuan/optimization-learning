@@ -26,31 +26,30 @@ for i = 1:10
 end
 
 %% Displacement Calculation (DOF reduced)
-A(1:6, 1) = pi * r(1) * r(1);
-A(7:10, 1) = pi * r(2) * r(2);
+A(1:10, 1) = 0;
+A(1:6) = pi * r(1) * r(1);
+A(7:10) = pi * r(2) * r(2);
 K(1:12, 1:12) = 0;
 for i = 1:10
-    k(1:12, 1:12) = 0;
+    k_tmp(1:12, 1:12) = 0;
     k_small = E * A(i) / l_e(i) * [l(i); m(i)] * [l(i), m(i)];
     ec_i1 = ec(i, 1) * 2;
     ec_i2 = ec(i, 2) * 2;
-    k(ec_i1 - 1:ec_i1, ec_i1 - 1:ec_i1) = k_small;
-    k(ec_i2 - 1:ec_i2, ec_i2 - 1:ec_i2) = k_small;
-    k(ec_i1 - 1:ec_i1, ec_i2 - 1:ec_i2) = -k_small;
-    k(ec_i2 - 1:ec_i2, ec_i1 - 1:ec_i1) = -k_small;
-    K = K + k;
+    k_tmp(ec_i1 - 1:ec_i1, ec_i1 - 1:ec_i1) = k_small;
+    k_tmp(ec_i2 - 1:ec_i2, ec_i2 - 1:ec_i2) = k_small;
+    k_tmp(ec_i1 - 1:ec_i1, ec_i2 - 1:ec_i2) = -k_small;
+    k_tmp(ec_i2 - 1:ec_i2, ec_i1 - 1:ec_i1) = -k_small;
+    K = K + k_tmp;
 end
 Q = [K(1:8, 1:8)^-1 * F(1:8); zeros(4, 1)];
 
 %% Stress Calculation
 stress(1:10, 1) = 0;
 for i = 1:10
-    l_i = l(i, :);
-    m_i = m(i, :);
     ec_i1 = ec(i, 1) * 2;
     ec_i2 = ec(i, 2) * 2;
-    Qs = [Q(ec_i1 - 1); Q(ec_i1); Q(ec_i2 - 1); Q(ec_i2)];
-    stress(i, :) = E / l_e(i, :) * [-l_i, -m_i, l_i, m_i] * Qs;
+    stress(i) = E / l_e(i) * [-l(i), -m(i), l(i), m(i)] * ...
+        [Q(ec_i1 - 1); Q(ec_i1); Q(ec_i2 - 1); Q(ec_i2)];
 end
 
 %% Reaction Force on node 5 and node 6 (Unused)
