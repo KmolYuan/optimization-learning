@@ -89,7 +89,7 @@ Tested 7 results in the following table:
 
 Among them, the negative start point $(-1, -1)$ just a boundaral test for the algorithm.
 
-Actually, the results are not same at all ($10^{-3}$).
+In fact, the results are fundamentally different ($10^{-3}$).
 
 ## What are the optimal values of all cross sections?
 
@@ -104,7 +104,9 @@ Try other values shown in the following table:
 |:-----------:|:------:|:---------:|
 | $(8, 8)$ | $f(0.1383078670, 0.0979559978) = 4.8542444643$ | $13$ |
 | $(9, 9)$ | $f(0.1383081190, 0.0979555476) = 4.8542421478$ | $14$ |
+| $(9.5, 9.5)$ | $f(0.1383047855, 0.0979567807) = 4.8541225230$ | $14$ |
 | $(10, 10)$ | $f(0.1383037187, 0.0979551606) = 4.8540201319$ | $19$ |
+| $(10.5, 10.5)$ | $f(0.1383205013, 0.0979776151) = 4.8555345907$ | $16$ |
 | $(11, 11)$ | $f(0.1383045732, 0.0979563704) = 4.8540993507$ | $16$ |
 | $(12, 12)$ | $f(0.1383205455, 0.0979562115) = 4.8548555070$ | $14$ |
 
@@ -162,12 +164,22 @@ For each constraint $g_i$, disable one by one to show the changes or not.
 After the test, disabled constraints $g_{12}$, $g_{15}$ and $g_{16}$ was not change the result.
 So apparently they are not active to the objective function, but the others do.
 
+In the algorithm, the times of iteration and step size will change when disable the constraints.
+There might be influences the accuracy of the result.
+
+For an extreme example, when $g_{21}$ is disable, the result changed at $10^{-8}$.
+
+The "`double`" data type will loss accuracy around $10^{-15}$.
+(IEEE 754 double-precision binary floating-point format)
+
 ## Please provide a rationale that you have found the correct result.
 
-Instead of input an actual objective function,
-the algorithm uses trial and error to obtain discrete values from a "function object" during runtime.
+Instead of input an "actual" objective function mathematically,
+the algorithm uses trial and error to obtain **discrete values**
+from a "function object" during runtime.
 
 This will cause the algorithm unable to get the correct extrema
-unless its values are got from the slope of the objective function $f'(r_1, r_2)$.
+unless its values are got from a slope function $f'(r_1, r_2)$
+or a gradient array $\Delta f(r_1, r_2)$.
 
 # Reference

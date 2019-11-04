@@ -6,15 +6,15 @@
 clear; clc;
 
 %% Optimization
-% Test 11 cases
+% Tested a lot of cases
 global disable
 disable = 0;
-test_init = [-1, 0, 1, 2, 3, 10, 100, 8, 9, 10, 11, 12, 10];
+test_init = [-1, 0, 1, 2, 3, 10, 100, 8, 9, 9.5, 10, 10.5, 11, 12];
 for n = 1:numel(test_init)
     test_case(test_init(n));
 end
 % Test disabled constraints
-for disable = 1:21
+for disable = 0:21
     test_case(10);
     fprintf("(Disabled: g%d)\n", disable);
 end
@@ -36,7 +36,7 @@ end
 %% Function Body
 init = [i, i];
 [x, fval, flag, out] = fmincon(obj, init, [], [], [], [], lb, ub, @nonlcon, optimset);
-fprintf("[%d, %d]\n", init);
+fprintf("[%.1f, %.1f]\n", init);
 if flag == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
