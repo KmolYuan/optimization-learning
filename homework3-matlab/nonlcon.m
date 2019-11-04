@@ -17,7 +17,7 @@ if isempty(vf)
     sigma_y = 250e6;  % unit: Pa
 end
 
-%% Stress
+%% Displacement and Stress
 [Q, stress] = TenBarAnalysis(x, l, E, F);
 
 %% Inequality Constraints

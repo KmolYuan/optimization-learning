@@ -41,7 +41,7 @@ if flag == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
     fprintf("f(%.10f, %.10f) = %.10f\n", x, fval);
-    fprintf("min wieght: %.10f kg\n", fval * rho);
+    fprintf("min weight: %.10f kg\n", fval * rho);
 else
     fprintf("Error: %d\n", flag);
 end
