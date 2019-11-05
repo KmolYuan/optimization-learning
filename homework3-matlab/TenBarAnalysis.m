@@ -1,4 +1,4 @@
-function [Q, stress] = TenBarAnalysis(r, length, E, F)
+function [l_e, Q, stress] = TenBarAnalysis(r, length, E, F)
 % TenBarAnalysis:
 % Calculate stresses in each element by given spec. and force of the truss structure. 
 % input: radius r (composed of r1, r2), length l, Young's modulus E, and force array F.
