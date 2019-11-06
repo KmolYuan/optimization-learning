@@ -76,20 +76,26 @@ g_{21} &= \delta_2 - 2 \le 0
 \end{aligned}
 $$
 
-**Using "optimset" option in function "fmincon" function, which chosen
-"interior-point" algorithm for the following test.**
+Where yield strengths $\sigma_i$ will transform into scalars $|\sigma_i|$ since
+the comparisons are including both compressing and stretching.
+
+And the interior forces $F_i'$ and the deformed lengths $l_i'$ are also changed,
+so they are not used as the original $F$ and $l$.
+
+**Used a customized option in "fmincon" function, which chosen
+"SQP" algorithm for the following test.**
 
 ## Try at least three different starting points. Are the results the same?
 
 Tested 7 results in the following table:
 
-| Start point | Result |
-|:-----------:|:------:|
-| $(1, 1)$ | $f(0.2606346250, 0.2223656116) = 19.7350646658$ |
-| $(20.5, 20.5)$ | $f(0.2606346250, 0.2223656116) = 19.7350646658$ |
-| $(30.6, 30.6)$ | $f(0.2606346292, 0.2223656055) = 19.7350645987$ |
+| Start point | Result | Is the same |
+|:-----------:|:------:|:-----------:|
+| $(1, 1)$ | $f(0.2606346250, 0.2223656116) = 19.7350646658$ | O |
+| $(20.5, 20.5)$ | $f(0.2606346250, 0.2223656116) = 19.7350646658$ | O |
+| $(30.6, 30.6)$ | $f(0.2606346292, 0.2223656055) = 19.7350645987$ | $\Delta$ |
 
-In fact, the results have little bit different ($10^{-7}$)
+In fact, the results have little bit different ($\Delta$, $10^{-7}$)
 but will not cause too much impact.
 
 ## What are the optimal values of all cross sections?
@@ -99,11 +105,11 @@ With the start point $(1, 1)$ above:
 $$f(0.2606346250, 0.2223656116) = 19.7350646658$$
 
 There are two types of radius, $r_1$ respact to bar $1\sim6$, $r_2$ respact to bar $7\sim10$.
-The cross sections are $\pi r_1^2 = 0.2134$, $\pi r_2^2 = 0.1553$.
+The cross sections are $\pi r_1^2 = 0.2134 \text{ m}^2$, $\pi r_2^2 = 0.1553 \text{ m}^2$.
 
 ## What is the minimal weight of the truss obtained?
 
-The minimal value $v^* = 19.7350646658$ obtains $v^*\rho = 155117.6082732070$ kg.
+The minimal value $v = 19.7350646658$ obtains $v\rho = 155117.6082732070$ kg.
 
 ## How was your design problem terminated?
 
@@ -154,7 +160,7 @@ For each constraint $g_i$, disable one by one to show the changes or not.
 
 After the test, disabled constraints $g_{21}$ will change the result.
 So apparently it is active to the objective function.
-Minor errors can be ignored.
+Minor errors ($\Delta$, $10^{-10}$) can be ignored.
 
 ## Please provide a rationale that you have found the correct result.
 
