@@ -10,20 +10,30 @@ This PDF is generated from Markdown[@homework4-md], scripping in Matlab[@homewor
 
 # Uncertainty Analysis of the Ten-Bar Truss
 
-## Please obtain the final distribution of the stress at bar No.5 and No.6
+## Please obtain the final distribution of the stress at bar 5 and 6
 
 Ran with $10^6$ times.
 
-Where red and green data is bar No.5 and No.6 respectively.
+Where red and green data is bar 5 and 6 respectively.
 
 ![](img/homework4-1.png)
 
 ## What is the probability of Bar 1 failing using Monte Carlo Simulation (MCS) with 1 million samples
 
-There is no failed in Monte Carlo Simulation.
+Bar 1 is constrained by:
 
-Where yellow and blue data is bar No.1 and $Y$ respectively.
-The plot represents there is no intersection between the stress of No.1 and the limitation.
+$$
+\begin{aligned}
+g_1 &= |\sigma_1| \pi r_1^2 - \frac{\pi^3r_1^2E}{4l_1'^2} \le 0
+\\
+g_2 &= |\sigma_1| - \sigma_Y \le 0
+\end{aligned}
+$$
+
+After test, there is no failed in Monte Carlo Simulation.
+
+Where yellow and blue data is bar 1 and $Y$ respectively.
+The plot represents there is no intersection between the stress of bar 1 and the limitation.
 
 ![](img/homework4-2.png)
 
