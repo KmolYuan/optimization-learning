@@ -3,9 +3,9 @@ clc; clear;
 
 %% Optimization
 obj = @(x) x(1) + x(2);
-% op = optimoptions('fmincon', 'Algorithm', 'sqp');
-% [x, fval, flag, out] = fmincon(obj, [0, 0], [], [], [], [], [], [], @fosm, op);
-[x, fval, flag, out] = ga(obj, 2, [], [], [], [], [], [], @fosm);
+op = optimoptions('fmincon', 'Algorithm', 'sqp');
+[x, fval, flag, out] = fmincon(obj, [0, 0], [], [], [], [], [], [], @fosm, op);
+% [x, fval, flag, out] = ga(obj, 2, [], [], [], [], [], [], @fosm);
 
 %% Result
 if flag == 1
