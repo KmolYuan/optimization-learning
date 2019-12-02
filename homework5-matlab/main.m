@@ -1,5 +1,5 @@
 %% Clean
-clc; clear;
+clc; clear; tic;
 
 %% Optimization
 obj = @(x) x(1) + x(2);
@@ -15,3 +15,4 @@ if flag == 1
 else
     fprintf("Error: %d\n", flag);
 end
+toc;
