@@ -1,10 +1,8 @@
 function [c, ceq] = fosm(x)
-persistent sg_2 g1 g2 g3 g1p g2p g3p
+global g1 g2 g3
+persistent sg_2 g1p g2p g3p
 if isempty(sg_2)
     sg_2 = 0.3 * 0.3;
-    g1 = @(x1, x2) 20 - x1^2 * x2;
-    g2 = @(x1, x2) 1 - (x1 + x2 - 5)^2 / 30 - (x1 - x2 - 12)^2 / 120;
-    g3 = @(x1, x2) x1^2 + 8 * x2 - 75;
     g1p = [diff(g1, sym('x1')), diff(g1, sym('x2'))];
     g2p = [diff(g2, sym('x1')), diff(g2, sym('x2'))];
     g3p = [diff(g3, sym('x1')), diff(g3, sym('x2'))];

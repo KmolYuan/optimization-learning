@@ -1,6 +1,6 @@
 function [c, ceq] = nonlcon(x)
 %% Variables
-global N
+global N g1 g2 g3
 persistent stdx covx Pr
 if isempty(stdx)
     stdx = [0.3, 0.3];
@@ -12,9 +12,9 @@ X1 = rnd(:, 1);
 X2 = rnd(:, 2);
 
 %% Inequality Constraints
-c(1) = Pr(20 - X1.^2 .* X2 > 0) - 0.0013;
-c(2) = Pr(1 - (X1 + X2 - 5).^2 / 30 - (X1 - X2 - 12).^2 / 120 > 0) - 0.0013;
-c(3) = Pr(X1.^2 + X2 * 8 - 75 > 0) - 0.0013;
+c(1) = Pr(g1(X1, X2) > 0) - 0.0013;
+c(2) = Pr(g2(X1, X2) > 0) - 0.0013;
+c(3) = Pr(g3(X1, X2) > 0) - 0.0013;
 
 %% Equality Constraints
 ceq = [];
