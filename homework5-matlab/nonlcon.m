@@ -1,10 +1,10 @@
 function [c, ceq] = nonlcon(x)
 %% Variables
-persistent stdx covx N Pr
+global N
+persistent stdx covx Pr
 if isempty(stdx)
     stdx = [0.3, 0.3];
     covx = [stdx(1)^2, 0; 0, stdx(2)^2];
-    N = 1e6;
     Pr = @(a) sum(a, 'all') / N;
 end
 rnd = mvnrnd(x, covx, N);
