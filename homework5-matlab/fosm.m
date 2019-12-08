@@ -9,23 +9,13 @@ if isempty(sg_2)
 end
 Sub = @(func) double(subs(func, [sym('x1'), sym('x2')], [x(1), x(2)]));
 sigma = @(patial) sqrt(Sub(patial(1))^2 * sg_2 + Sub(patial(2))^2 * sg_2);
+
 mu_g(1) = g1(x(1), x(2));
 mu_g(2) = g2(x(1), x(2));
 mu_g(3) = g3(x(1), x(2));
 
-%% g1
-% -2 * x(1) * x(2)
-% -x(1)^2
 sigma_g(1) = sigma(g1p);
-
-%% g2
-% 8 / 15 - x(2) / 20 - x(1) / 12
-% 2 / 15 - x(2) / 12 - x(1) / 20
 sigma_g(2) = sigma(g2p);
-
-%% g3
-% 2 * x(1)
-% 8
 sigma_g(3) = sigma(g3p);
 
 %% Inequality Constraints
