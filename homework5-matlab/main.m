@@ -46,13 +46,16 @@ end
 toc;
 
 %% Plot
-x1 = 0:0.1:100;
+[x1, x2] = meshgrid(1:10);
 figure;
-plot(x1, 20 ./ x1.^2);
+contour(x1 + x2);
+colorbar;
+colormap jet;
 hold on;
-% 1 - (x1 + x2 - 5)^2 / 30 - (x1 - x2 - 12)^2 / 120 = 0
-% -x1^2/24 - x1*x2/20 + 8*x1/15 - x2^2/24 + 2*x2/15 - 31/30 = 0
-% -x1^2/24 + 8*x1/15 - 31/30 = x1*x2/20 + x2*(5*x2 - 16)/120
-% plot(x1, x1);
-% hold on;
-plot(x1, (x1.^2 - 75) / 8);
+
+[x1, x2] = meshgrid(1:0.05:10);
+g_p = g1(x1, x2) > 0 | g2(x1, x2) > 0 | g3(x1, x2) > 0;
+x1(g_p) = NaN;
+x2(g_p) = NaN;
+plot(x1, x2, 'o');
+toc;

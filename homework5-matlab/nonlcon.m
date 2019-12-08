@@ -8,13 +8,13 @@ if isempty(stdx)
     Pr = @(a) sum(a, 'all') / N;
 end
 rnd = mvnrnd(x, covx, N);
-X1 = rnd(:, 1);
-X2 = rnd(:, 2);
+x1 = rnd(:, 1);
+x2 = rnd(:, 2);
 
 %% Inequality Constraints
-c(1) = Pr(g1(X1, X2) > 0) - 0.0013;
-c(2) = Pr(g2(X1, X2) > 0) - 0.0013;
-c(3) = Pr(g3(X1, X2) > 0) - 0.0013;
+c(1) = Pr(g1(x1, x2) > 0) - 0.0013;
+c(2) = Pr(g2(x1, x2) > 0) - 0.0013;
+c(3) = Pr(g3(x1, x2) > 0) - 0.0013;
 
 %% Equality Constraints
 ceq = [];
