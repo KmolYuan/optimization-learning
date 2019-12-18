@@ -3,7 +3,6 @@ clc; clear; close all; tic;
 
 %% Objective Function
 global N g1 g2 g3 covx
-N = 1e2;
 g1 = @(x1, x2) 20 - x1.^2 .* x2;
 g2 = @(x1, x2) 1 - (x1 + x2 - 5).^2 / 30 - (x1 - x2 - 12).^2 / 120;
 g3 = @(x1, x2) x1.^2 + 8 * x2 - 75;
@@ -14,6 +13,7 @@ pt = [-6.5, 2.1];
 op = optimoptions('fmincon', 'Algorithm', 'sqp');
 
 %% Q1
+N = 1e2;
 x(1:3, 2) = 0;
 [x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], [], [], @nonlcon, op);
 if flag(1) == 1

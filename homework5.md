@@ -40,7 +40,7 @@ $$
 \begin{aligned}
 \mu_{g_i} &= g_i(x)
 \\
-\sigma_{g_i} &= \sqrt{\Sigma_j(\frac{\partial g_i}{\partial x_j}\sigma_{x_j})^2}
+\sigma_{g_i} &= \sqrt{\sum_j(\frac{\partial g_i}{\partial x_j}\sigma_{x_j})^2}
 \\
 G_i &= 1 - \text{normcdf}(-\frac{\mu_{g_i}}{\sigma_{g_i}}) - 0.0013 \le 0
 \end{aligned}
