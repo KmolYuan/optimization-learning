@@ -2,10 +2,15 @@
 clc; clear; close all; tic;
 
 %% Objective Function
-global N l
+global N l F E Pf sigma_y
 l = 9.14;  % unit: m
+F(1:12, 1) = 0;  % unit: N
+F(4) = -1e7;
+E = 200e9;  % unit: Pa
+Pf = pi * pi * E / 4;  % P factor unit: N
+sigma_y = 250e6;  % unit: Pa
 
-pt = [5, 5];
+pt = [0.3366, 0.35];
 obj = @(x) 6 * pi * x(1) * x(1) * l + 4 * pi * x(2) * x(2) * sqrt(2) * l;
 op = optimoptions('fmincon', 'Algorithm', 'sqp');
 
@@ -16,7 +21,7 @@ x(1:3, 2) = 0;
 if flag(1) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
-    fprintf("f(%.10f, %.10f) = %.10f\n", x(1, :), fval(2));
+    fprintf("f(%.10f, %.10f) = %.10f\n", x(1, :), fval(1));
 else
     fprintf("Error: %d\n", flag(1));
 end
@@ -35,12 +40,12 @@ end
 toc;
 
 %% Q3
-% [x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], [], [], @fosm, op);
-% if flag(3) == 1
-%     fprintf("algorithm: %s\n", out.algorithm);
-%     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
-%     fprintf("f(%.10f, %.10f) = %.10f\n", x(3, :), fval(3));
-% else
-%     fprintf("Error: %d\n", flag(3));
-% end
-% toc;
+[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], [], [], @fosm, op);
+if flag(3) == 1
+    fprintf("algorithm: %s\n", out.algorithm);
+    fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
+    fprintf("f(%.10f, %.10f) = %.10f\n", x(3, :), fval(3));
+else
+    fprintf("Error: %d\n", flag(3));
+end
+toc;
