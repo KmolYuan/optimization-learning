@@ -11,13 +11,17 @@ Pf = pi * pi * E / 4;  % P factor unit: N
 sigma_y = 250e6;  % unit: Pa
 
 pt = [0.3366, 0.35];
+lb = [1e-6, 1e-6];
+ub = [10, 10];
 obj = @(x) 6 * pi * x(1) * x(1) * l + 4 * pi * x(2) * x(2) * sqrt(2) * l;
-op = optimoptions('fmincon', 'Algorithm', 'sqp');
+op1 = optimoptions(@ga, 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
+op2 = optimoptions(@fmincon, 'Algorithm', 'sqp');
 
 %% Q1
 N = 1e2;
 x(1:3, 2) = 0;
-[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], [], [], @nonlcon, op);
+[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
+%[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
 if flag(1) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -29,7 +33,8 @@ toc;
 
 %% Q2
 N = 1e6;
-[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], [], [], @nonlcon, op);
+[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
+% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
 if flag(2) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -40,7 +45,7 @@ end
 toc;
 
 %% Q3
-[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], [], [], @fosm, op);
+[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @fosm, op2);
 if flag(3) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
