@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-11-08
 
-This PDF is generated from Markdown[@homework3-md], scripping in Matlab[@homework3-ml].
+This PDF is generated from Markdown[@homework3-md], scripting in Matlab[@homework3-ml].
 
 **The original Matlab code has been modified ALL OVER for better readability and performance.**
 

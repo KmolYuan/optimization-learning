@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-12-10
 
-This PDF is generated from Markdown[@homework5-md], scripping in Matlab[@homework5-ml].
+This PDF is generated from Markdown[@homework5-md], scripting in Matlab[@homework5-ml].
 
 # Design under Uncertainty
 

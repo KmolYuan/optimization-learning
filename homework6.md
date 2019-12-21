@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-12-24
 
-This PDF is generated from Markdown[@homework6-md], scripping in Matlab[@homework6-ml].
+This PDF is generated from Markdown[@homework6-md], scripting in Matlab[@homework6-ml].
 
 # Design Optimization of a Ten-Bar Truss under Uncertainty
 
@@ -20,7 +20,7 @@ F'_i &\le P_i^c = \frac{\pi^2EI}{l_i'^2}
 \\
 \sigma_i &\le \sigma_Y
 \\
-\delta_2 &\le 2
+\delta_2 &\le 0.02
 \end{aligned}
 $$
 
@@ -45,10 +45,14 @@ l &= 9.14 \text{ m}
 $$
 
 Let the variables $r = \{r_1, r_2\}$ replaced with variations $R = \{R_1, R_2\}$
-using Gaussian distribution.
+and forces $F$ replaced with $F_{\text{Random}}$ using Gaussian distribution.
 
 $$
-R = N(r, 0.1^2)
+\begin{aligned}
+R &= N(r, (0.1r)^2)
+\\
+F_{\text{Random}} &= N(F, |0.1F|^2)
+\end{aligned}
 $$
 
 Expand and normalize the constraints into negative null form:
@@ -67,11 +71,29 @@ g_{7\sim10} &=  |\sigma_{7\sim10}| \pi r_2^2 - \frac{\pi^3r_2^2E}{4l_{7\sim10}'^
 \\
 g_{11\sim20} &= |\sigma_{1\sim10}| - \sigma_Y \le 0
 \\
-g_{21} &= \delta_2 - 2 \le 0
+g_{21} &= \delta_2 - 0.02 \le 0
 \end{aligned}
 $$
 
 ## Please rewrite the mathematical formulation of the design problem with uncertainty
+
+$$
+\begin{aligned}
+\min_{r_1, r_2} f &= 6\pi r_1^2l + 4\pi r_2^2\sqrt{2}l
+\\
+g_{1\sim6} &= \text{Pr}[|\sigma_{1\sim6}| \pi R_1^2 - \frac{\pi^3R_1^2E}{4l_{1\sim6}'^2} > 0] - 0.0013 \le 0
+\\
+g_{7\sim10} &=  \text{Pr}[|\sigma_{7\sim10}| \pi R_2^2 - \frac{\pi^3R_2^2E}{4l_{7\sim10}'^2} > 0] - 0.0013 \le 0
+\\
+g_{11\sim20} &= \text{Pr}[|\sigma_{1\sim10}| - \sigma_Y > 0] - 0.0013 \le 0
+\\
+g_{21} &= \text{Pr}[\delta_2 - 0.02 > 0] - 0.0013 \le 0
+\end{aligned}
+$$
+
+Where $l_i'$, $\delta_i$ and $\sigma_i$ are calculated by uncertainties $R$ and $F_{\text{Random}}$.
+
+The $\text{Pr}$ function will sum up all happened result then divide with the total number of times.
 
 ## Please use Monte Carlo simulation with 100 samples to solve the problem. Rerun twice, are the results different? Did you face convergence difficulties? Why?
 
@@ -89,6 +111,12 @@ $$
 \\
 G_i &= 1 - \text{normcdf}(-\frac{\mu_{g_i}}{\sigma_{g_i}}) - 0.0013 \le 0
 \end{aligned}
+$$
+
+The partial differential of the constraints can be determined by:
+
+$$
+\frac{\partial g_i}{\partial x_j} = \left. \frac{g_i(x_0, \dots, x_j + \Delta x_j, \dots) - g_i(x)}{\Delta x_j} \right |_{\Delta x_j\rightarrow 0^+}
 $$
 
 # Reference

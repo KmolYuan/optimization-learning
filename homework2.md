@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-10-08
 
-This PDF is generated from Markdown[@homework2-md], scripping in Python[@homework2-py].
+This PDF is generated from Markdown[@homework2-md], scripting in Python[@homework2-py].
 
 # Functional Monotonicity Analysis
 

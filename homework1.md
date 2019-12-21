@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-09-24
 
-This PDF is generated from Markdown[@homework1-md], scripping in Python[@homework1-py].
+This PDF is generated from Markdown[@homework1-md], scripting in Python[@homework1-py].
 
 # Model Representation and Visualization
 

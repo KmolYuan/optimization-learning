@@ -6,7 +6,7 @@ Student: Yuan Chang
 
 Due date: 2019-11-26
 
-This PDF is generated from Markdown[@homework4-md], scripping in Matlab[@homework4-ml].
+This PDF is generated from Markdown[@homework4-md], scripting in Matlab[@homework4-ml].
 
 # Uncertainty Analysis of the Ten-Bar Truss
 
