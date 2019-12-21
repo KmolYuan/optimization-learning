@@ -3,5 +3,11 @@
 # sh compile.sh FILE_NUMBER
 
 BASEDIR=$(readlink -f "$(dirname "$(readlink -f "${0}")")")
-FILE=${BASEDIR}/homework${1}.md
-pandoc "${FILE}" -o $(basename -- "${FILE%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=apa.csl
+if [ "${1}" == "all" ]; then
+  FILE=($(ls *.md))
+else
+  FILE=("${BASEDIR}/homework${1}.md")
+fi
+for f in "${FILE[@]}"; do
+  pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=apa.csl
+done
