@@ -12,16 +12,16 @@ sigma_y = 250e6;  % unit: Pa
 
 pt = [0.3366, 0.35];
 lb = [1e-6, 1e-6];
-ub = [10, 10];
+ub = [1, 1];
 obj = @(x) 6 * pi * x(1) * x(1) * l + 4 * pi * x(2) * x(2) * sqrt(2) * l;
-op1 = optimoptions(@ga, 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
-op2 = optimoptions(@fmincon, 'Algorithm', 'sqp');
+op1 = optimoptions(@ga, 'Display', 'iter', 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
+op2 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'MaxIterations', 1500, 'Display', 'iter');
 
 %% Q1
 N = 1e2;
 x(1:3, 2) = 0;
-[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
-%[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
+%[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
+[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
 if flag(1) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -30,7 +30,7 @@ else
     fprintf("Error: %d\n", flag(1));
 end
 toc;
-
+return;
 %% Q2
 N = 1e6;
 [x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
