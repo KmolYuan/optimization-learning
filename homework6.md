@@ -119,4 +119,6 @@ $$
 \frac{\partial g_i}{\partial x_j} = \left. \frac{g_i(x_0, \dots, x_j + \Delta x_j, \dots) - g_i(x)}{\Delta x_j} \right |_{\Delta x_j\rightarrow 0^+}
 $$
 
+![](img/homework6.png)
+
 # Reference

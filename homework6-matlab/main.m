@@ -14,14 +14,14 @@ pt = [0.3366, 0.35];
 lb = [1e-6, 1e-6];
 ub = [1, 1];
 obj = @(x) 6 * pi * x(1) * x(1) * l + 4 * pi * x(2) * x(2) * sqrt(2) * l;
-op1 = optimoptions(@ga, 'Display', 'iter', 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
-op2 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'MaxIterations', 1500, 'Display', 'iter');
+op1 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'MaxIterations', 1500, 'Display', 'iter');
+op2 = optimoptions(@ga, 'Display', 'iter', 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
 
 %% Q1
 N = 1e2;
 x(1:3, 2) = 0;
-%[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
-[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
+[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @monte_carlo, op1);
+%[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @monte_carlo, op1);
 if flag(1) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -30,11 +30,11 @@ else
     fprintf("Error: %d\n", flag(1));
 end
 toc;
-return;
+
 %% Q2
 N = 1e6;
-[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @nonlcon, op2);
-% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, ub, @nonlcon, op1);
+[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @monte_carlo, op1);
+% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, ub, @monte_carlo, op1);
 if flag(2) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -45,7 +45,7 @@ end
 toc;
 
 %% Q3
-[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @fosm, op2);
+[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @fosm, op1);
 if flag(3) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -54,3 +54,26 @@ else
     fprintf("Error: %d\n", flag(3));
 end
 toc;
+
+%% Plot
+grid_range = 0:0.001:1;
+[X1, X2] = meshgrid(grid_range, grid_range);
+figure;
+contour(X1, X2, 6 * pi * l .* X1.^2 + 4 * pi * sqrt(2) * l .* X2.^2, 0:10:300, 'ShowText', 'on')
+colorbar;
+hold on;
+for r1 = 0:0.01:1
+    for r2 = 0:0.01:1
+        [C, Ceq] = nonlcon([r1, r2]);
+        if C(21) > 0
+            plot(r1, r2, 'x')
+        end
+    end
+end
+% r = pt;
+r = [0.3292, 0.3247];
+rnd = mvnrnd(r, (r / 10).^2 .* [1, 0; 0, 1], N);
+plot(rnd(:, 1), rnd(:, 2), 'o');
+xlabel('r1');
+ylabel('r2');
+title("Objective function");
