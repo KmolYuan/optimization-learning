@@ -10,18 +10,17 @@ E = 200e9;  % unit: Pa
 Pf = pi * pi * E / 4;  % P factor unit: N
 sigma_y = 250e6;  % unit: Pa
 
-pt = [0.3366, 0.35];
-lb = [1e-6, 1e-6];
-ub = [1, 1];
+pt = [0.3293, 0.3246];
+lb = [1e-4, 1e-4];
 obj = @(x) 6 * pi * x(1) * x(1) * l + 4 * pi * x(2) * x(2) * sqrt(2) * l;
-op1 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'MaxIterations', 1500, 'Display', 'iter');
+op1 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'Display', 'iter','MaxIterations',1500,'MaxFunctionEvaluations',1e4);
 op2 = optimoptions(@ga, 'Display', 'iter', 'PopulationSize', 100, 'MaxGenerations', 500, 'MutationFcn', {@mutationadaptfeasible, 0.001});
 
 %% Q1
 N = 1e2;
 x(1:3, 2) = 0;
-[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @monte_carlo, op1);
-%[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, ub, @monte_carlo, op1);
+[x(1, :), fval(1), flag(1), out] = fmincon(obj, pt, [], [], [], [], lb, [], @monte_carlo, op1);
+%[x(1, :), fval(1), flag(1), out] = ga(obj, 2, [], [], [], [], lb, [], @monte_carlo, op1);
 if flag(1) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -33,8 +32,8 @@ toc;
 
 %% Q2
 N = 1e6;
-[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @monte_carlo, op1);
-% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, ub, @monte_carlo, op1);
+[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, [], @monte_carlo, op1);
+% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, [], @monte_carlo, op1);
 if flag(2) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -45,7 +44,7 @@ end
 toc;
 
 %% Q3
-[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, ub, @fosm, op1);
+[x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, [], @fosm, op1);
 if flag(3) == 1
     fprintf("algorithm: %s\n", out.algorithm);
     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
@@ -70,8 +69,8 @@ for r1 = 0:0.01:1
         end
     end
 end
-% r = pt;
-r = [0.3292, 0.3247];
+% r = [0.3292, 0.3247];
+r = x(3, :);
 rnd = mvnrnd(r, (r / 10).^2 .* [1, 0; 0, 1], N);
 plot(rnd(:, 1), rnd(:, 2), 'o');
 xlabel('r1');

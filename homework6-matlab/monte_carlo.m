@@ -24,7 +24,7 @@ for i = 1:N
 end
 
 %% Inequality Constraints
-C = g / N - 0.0013;
+C = g / N - 0.001;
 
 %% Equality Constraints
 Ceq = [];

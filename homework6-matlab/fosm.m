@@ -55,7 +55,7 @@ sigma_g(1:6) = sigma_f(@g1);
 sigma_g(7:10) = sigma_f(@g2);
 sigma_g(11:20) = sigma_f(@g3);
 sigma_g(21) = sigma_f(@g4);
-C = 1 - normcdf(-mu_g ./ sigma_g) - 0.0013;
+C = 1 - normcdf(-mu_g ./ sigma_g) - 0.001;
 
 %% Equality Constraints
 Ceq = [];
