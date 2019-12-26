@@ -32,16 +32,16 @@ toc;
 
 %% Q2
 N = 1e6;
-[x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, [], @monte_carlo, op1);
-% [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, [], @monte_carlo, op1);
-if flag(2) == 1
-    fprintf("algorithm: %s\n", out.algorithm);
-    fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
-    fprintf("f(%.10f, %.10f) = %.10f\n", x(2, :), fval(2));
-else
-    fprintf("Error: %d\n", flag(2));
-end
-toc;
+% [x(2, :), fval(2), flag(2), out] = fmincon(obj, pt, [], [], [], [], lb, [], @monte_carlo, op1);
+% % [x(2, :), fval(2), flag(2), out] = ga(obj, 2, [], [], [], [], lb, [], @monte_carlo, op1);
+% if flag(2) == 1
+%     fprintf("algorithm: %s\n", out.algorithm);
+%     fprintf("(iter: %d, step: %i)\n", out.iterations, out.stepsize);
+%     fprintf("f(%.10f, %.10f) = %.10f\n", x(2, :), fval(2));
+% else
+%     fprintf("Error: %d\n", flag(2));
+% end
+% toc;
 
 %% Q3
 [x(3, :), fval(3), flag(3), out] = fmincon(obj, pt, [], [], [], [], lb, [], @fosm, op1);
@@ -84,4 +84,4 @@ for i = 1:N
         succeed = succeed + 1;
     end
 end
-fprintf("%d > 99%", succeed / N);
+fprintf("%.04f > 0.99\n", succeed / N);

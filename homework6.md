@@ -160,6 +160,7 @@ $$
 $$
 
 After executed SQP algorithm with an initial values $[0.3293, 0.3246]$, the result flag is -2, but we obtained $x = [0.329818090602828, 0.323336750073526]$.
+Success rate 99.9036%.
 
 ![](img/homework6.png)
 
