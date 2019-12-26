@@ -63,7 +63,7 @@ colorbar;
 hold on;
 for r1 = 0:0.01:1
     for r2 = 0:0.01:1
-        [C, Ceq] = nonlcon([r1, r2]);
+        [C, ~] = nonlcon([r1, r2]);
         if C(21) > 0
             plot(r1, r2, 'x')
         end
@@ -76,3 +76,12 @@ plot(rnd(:, 1), rnd(:, 2), 'o');
 xlabel('r1');
 ylabel('r2');
 title("Objective function");
+
+succeed = 0;
+for i = 1:N
+    [C, ~] = nonlcon([rnd(i, 1), rnd(i, 2)]);
+    if C(21) <= 0
+        succeed = succeed + 1;
+    end
+end
+fprintf("%d < 99%", succeed / N);
