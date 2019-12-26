@@ -84,4 +84,4 @@ for i = 1:N
         succeed = succeed + 1;
     end
 end
-fprintf("%d < 99%", succeed / N);
+fprintf("%d > 99%", succeed / N);
