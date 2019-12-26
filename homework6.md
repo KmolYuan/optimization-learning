@@ -91,13 +91,13 @@ $$
 \begin{aligned}
 \min_{r_1, r_2} f &= 6\pi r_1^2l + 4\pi r_2^2\sqrt{2}l
 \\
-\text{subject to } g_{1\sim6} &= \text{Pr}[|\sigma_{1\sim6}| \pi R_1^2 - \frac{\pi^3R_1^2E}{4(l_{\text{new}})_{1\sim6}^2} > 0] - 0.0013 \le 0
+\text{subject to } g_{1\sim6} &= \text{Pr}[|\sigma_{1\sim6}| \pi R_1^2 - \frac{\pi^3R_1^2E}{4(l_{\text{new}})_{1\sim6}^2} > 0] - 0.001 \le 0
 \\
-g_{7\sim10} &=  \text{Pr}[|\sigma_{7\sim10}| \pi R_2^2 - \frac{\pi^3R_2^2E}{4(l_{\text{new}})_{7\sim10}^2} > 0] - 0.0013 \le 0
+g_{7\sim10} &=  \text{Pr}[|\sigma_{7\sim10}| \pi R_2^2 - \frac{\pi^3R_2^2E}{4(l_{\text{new}})_{7\sim10}^2} > 0] - 0.001 \le 0
 \\
-g_{11\sim20} &= \text{Pr}[|\sigma_{1\sim10}| - \sigma_Y > 0] - 0.0013 \le 0
+g_{11\sim20} &= \text{Pr}[|\sigma_{1\sim10}| - \sigma_Y > 0] - 0.001 \le 0
 \\
-g_{21} &= \text{Pr}[\delta_2 - 0.02 > 0] - 0.0013 \le 0
+g_{21} &= \text{Pr}[\delta_2 - 0.02 > 0] - 0.001 \le 0
 \end{aligned}
 $$
 
@@ -113,11 +113,15 @@ The SQP algorithm might be confused by random gradian when searching on the unst
 
 After tried Genetic Algorithm, the result is also -2. Each generation runs very slowly.
 
+The penalty function of Genetic Algorithm in Matlab is unknown, and the result flag -2 means the optimal is trapped in the penalty region.
+
 ## Please use Monte Carlo simulation with 1 million samples to solve the problem. Rerun twice, are the results different? Did you face convergence difficulties? Why?
 
 Start with values $[0.3293, 0.3246]$, result flag -2 and $x$ is **lower bound**.
 
 The SQP algorithm might be confused by random gradian when searching on the unstable boundaries.
+
+Because it will take a lot of times (over 5 hours), so the test of Genetic Algorithm was giving up.
 
 ## Please use FOSM to solve the problem. Use Monte Carlo to verify the failure probability at the optimal. Did you get 99% results? Why not?
 
@@ -129,7 +133,7 @@ $$
 \\
 \sigma_{g_i} &= \sqrt{\sum_j(\frac{\partial g_i}{\partial x_j}\sigma_{x_j})^2}
 \\
-G_i &= 1 - \text{normcdf}(-\frac{\mu_{g_i}}{\sigma_{g_i}}) - 0.0013 \le 0
+G_i &= 1 - \text{normcdf}(-\frac{\mu_{g_i}}{\sigma_{g_i}}) - 0.001 \le 0
 \end{aligned}
 $$
 
@@ -158,5 +162,8 @@ $$
 After executed SQP algorithm with an initial values $[0.3293, 0.3246]$, the result flag is -2, but we obtained $x = [0.329818090602828, 0.323336750073526]$.
 
 ![](img/homework6.png)
+
+The test initial values is very close to the boundaries, and other values in feasible domain are not succeed (return the initial values).
+So this result just shows that SQP algorithm in this case can only work on a near solution, but not for other values in the feasible domain.
 
 # Reference
