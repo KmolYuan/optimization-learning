@@ -54,6 +54,18 @@ else
 end
 toc;
 
+%% Success Rate
+r = x(3, :);
+rnd = mvnrnd(r, (r / 10).^2 .* [1, 0; 0, 1], N);
+succeed = 0;
+for i = 1:N
+    [C, ~] = nonlcon([rnd(i, 1), rnd(i, 2)]);
+    if C(21) <= 0
+        succeed = succeed + 1;
+    end
+end
+fprintf("%.04f > 0.99\n", succeed / N);
+
 %% Plot
 grid_range = 0:0.001:1;
 [X1, X2] = meshgrid(grid_range, grid_range);
@@ -69,19 +81,7 @@ for r1 = 0:0.01:1
         end
     end
 end
-% r = [0.3292, 0.3247];
-r = x(3, :);
-rnd = mvnrnd(r, (r / 10).^2 .* [1, 0; 0, 1], N);
 plot(rnd(:, 1), rnd(:, 2), 'o');
 xlabel('r1');
 ylabel('r2');
 title("Objective function");
-
-succeed = 0;
-for i = 1:N
-    [C, ~] = nonlcon([rnd(i, 1), rnd(i, 2)]);
-    if C(21) <= 0
-        succeed = succeed + 1;
-    end
-end
-fprintf("%.04f > 0.99\n", succeed / N);
