@@ -9,5 +9,5 @@ else
   FILE=("${BASEDIR}/homework${1}.md")
 fi
 for f in "${FILE[@]}"; do
-  pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=apa.csl
+  pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=ieee.csl
 done
