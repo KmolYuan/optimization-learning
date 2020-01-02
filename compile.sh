@@ -12,7 +12,17 @@ then
 else
   FILE=("${BASEDIR}/homework${1}.md")
 fi
+
+if [[ "$(uname)" == "Linux" ]]
+then
+  FONT=ukai.ttc
+  MONOFONT="DejaVu Sans Mono"
+else
+  FONT=DFKai-SB
+  MONOFONT=Consolas
+fi
+
 for f in "${FILE[@]}"
 do
-  pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=ieee.csl --pdf-engine=xelatex -V CJKmainfont=DFKai-SB
+  pandoc ${f} -o $(basename -- "${f%.*}").pdf -N -M link-citations=true --bibliography=refer.bib --csl=ieee.csl --pdf-engine=xelatex -V CJKmainfont="${FONT}" -V monofont="${MONOFONT}"
 done
