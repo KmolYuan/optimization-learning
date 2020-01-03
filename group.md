@@ -12,11 +12,98 @@ This PDF is generated from Markdown[@group-md], scripting in Matlab[@group-ml].
 
 # Introduction
 
+The patent Toy pistol (US2678753A[@patent]) is the model we used for reference.
+
+![](img/patent.png){width=50%}
+
+*A toy gun with a piston-type pump principle was first invented by Walter O. Hersey,
+where the water storage cavity is contained in the body of the gun.
+The water is ejected from the nozzle that operated by using fingers.
+The piston uses the push on the lever trigger to reduce the volume of the cylinder,
+thus forcing the water out of the gun barrel.
+This force on the trigger causes a fast moving stream of water due to the constricted size of the barrel.*
+
 # Problem Formulation
+
+The project is to find the maximum volume of water gun, the volume is related to the length, height and thickness of the design. The length is related to the velocity of water, and the velocity is related to the pressure, wall friction and the water output at a time.
+
+The design model shown as following:
+
+![](img/model.png)
+
+The variables are $L$, $d_1$ and $d_2$.
+
+The constants are shown as following:
+
+| Symbol | Value | Unit |
+|:------:|:-----:|:----:|
+| $\rho$ | $10^3$ | N |
+| $F$ | $180$ | N |
+| $k$ | $7\times 10^{-2}$ | m |
+| $h_1$ | $13\times 10^{-2}$ | m |
+| $h_2$ | $5.5\times 10^{-2}$ | m |
+| $t$ | $4\times 10^{-2}$ | m |
+| $c$ | $2\times 10^{-2}$ | m |
+| $\mu$ | $0.02$ | friction |
+| $\tau$ | $12$ | Pa |
+| $atm$ | $101325$ | Pa |
+
+The objective function and constraints are:
+
+$$
+\begin{aligned}
+\max_{L, d_1, d_2} f &= \rho g t[kh_1 + \frac{1}{2}h_2(w + L - k)] - \frac{\pi d_2^2}{4}
+\\
+\text{s. t. } g_1 &= d_1 - t \le 0
+\\
+g_2 &= d_2 - t \le 0
+\\
+g_3 &= k - L \le 0
+\\
+g_4 &= 5 - V_2 \le 0
+\\
+g_5 &= 10^{-5} - 0.05\pi d_2^2V_2 \le 0
+\\
+g_6 &= d_2 - d_1 \le 0
+\\
+\text{where } V_2 &= \frac{d_2^2(P_2 - \frac{4\tau(L - k)}{d_2^2} - atm)}{16\mu(L - k)}
+\end{aligned}
+$$
+
+Among them, $g_1$, $g_2$, $g_3$ and $g_6$ are the dimensional constraints;
+$g_4$ and $g_5$ represent the influences of the barrel length respect to the velocity.
+
+And the constraints are tested with monotonicity table[@textbook],
+which shows that the objective function and constraints are fully well bounded.
+
+|     | $L$ | $d_1$ | $d_2$ |
+|:---:|:---:|:-----:|:-----:|
+| $f$ | $+$ |   | $-$ |
+| $g_1$ |   | $+$ |   |
+| $g_2$ |   | $+$ |   |
+| $g_3$ | $-$ |   |   |
+| $g_4$ | $+$ |   | $-$ |
+| $g_5$ | $+$ |   | $-$ |
+| $g_5$ |   | $-$ | $+$ |
 
 # Optimization Results and Validation
 
+The exit flag is 1 when using SQP algorithm and Genetic Algorithm.
+For any initial variable at feasible domain, the result will always the same.
+For an initial variable at infeasible domain, the variables maybe decline to the upper bound, and the result will become infeasible.
+The result shows that the SQP algorithm found the convergence result successfully.
+
+| $L$ | $d_1$ | $d_2$ | Answer | Feasible |
+|:---:|:-----:|:-----:|:------:|:--------:|
+| 4.52 | 0.01 | 0.003 | 10.1783 | Yes |
+
+![](img/normal.png)
+
 # Uncertainty Analysis
+
+## Monte Carlo Method
+
+## First Order Second Moment Method
 
 # Matlab Programming
 
