@@ -15,3 +15,5 @@ sh compile.sh all
 # Please install TexLive.
 ./compile.sh all
 ```
+
+Please add supported fonts to shell script setting if you want to run in Mac OS.
