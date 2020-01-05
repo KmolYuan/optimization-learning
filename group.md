@@ -10,6 +10,33 @@ This PDF is generated from Markdown[@group-md], scripting in Matlab[@group-ml].
 
 # Executive Summary
 
+This project is inspired from a toy gun design, which consisted of a basic fluid mechanics system.
+The compress mechanism is using a piston with a spring.
+The total volume is same as the gun body that fills up with water,
+exclude the bulking of the barrel.
+
+The objective function is total volume, which should be more large as best.
+We set the variables are the length of barrel, the diameter of piston and nozzle.
+And the total volume are subject to dimensional constraints and velocity constraints.
+The number of constraints is six.
+
+The maximization process are using Sequential Quadratic Programming (SQP) Algorithm of Matlab software.
+And another varification is use Genetic Algorithm (GA).
+For the objective function, the total volume will more larger when increasing the length of barrel.
+Instead, the diameter of nozzle will causes total volume decresing.
+
+Because of Manufacturing tolerance, Measurement error and many instabilities,
+the optimization process needs to do an uncertainty analysis.
+There are two types of analysis, Monte Carlo Method and First Order Second Moment (FOSM) Method.
+These two methods will used for mutual verification.
+Same as the normal optimization process, these two methods will use SQP algorithm and GA to test their reliability.
+
+This report is the final report of the water gun design, all the process are doing by Matlab software.
+And the PDF file of the report is made by Markdown and Pandoc software,
+which is translated into LaTex format and output a well done mathematical formulation format.
+The public link of our sources and resources can be found on the bibliography section.
+If you have any questions about them, the manual can guide you to regenerate this document.
+
 # Introduction
 
 The patent Toy pistol (US2678753A[@patent]) is the model we used for reference.
@@ -22,6 +49,8 @@ The water is ejected from the nozzle that operated by using fingers.
 The piston uses the push on the lever trigger to reduce the volume of the cylinder,
 thus forcing the water out of the gun barrel.
 This force on the trigger causes a fast moving stream of water due to the constricted size of the barrel.*
+
+This model is simplified as a more easy-measurable sketch.
 
 # Problem Formulation
 
