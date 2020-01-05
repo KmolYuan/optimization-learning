@@ -41,7 +41,7 @@ If you have any questions about them, the manual can guide you to regenerate thi
 
 The patent Toy pistol (US2678753A[@patent]) is the model we used for reference.
 
-![](img/patent.png){width=50%}
+![](img/patent.png){width=70%}
 
 *A toy gun with a piston-type pump principle was first invented by Walter O. Hersey,
 where the water storage cavity is contained in the body of the gun.
@@ -51,6 +51,7 @@ thus forcing the water out of the gun barrel.
 This force on the trigger causes a fast moving stream of water due to the constricted size of the barrel.*
 
 This model is simplified as a more easy-measurable sketch.
+We ignore the angle of trigger, because of it won't influence the pressure of the gun body.
 
 # Problem Formulation
 
@@ -132,7 +133,105 @@ The result shows that the SQP algorithm found the convergence result successfull
 
 ## Monte Carlo Method
 
+The variations are $L$, $d_1$ and $d_2$, the coefficient of variation $\frac{\sigma}{\mu}$ will be $10^{-1}$ at first.
+
+The constraints will become:
+
+$$
+\begin{aligned}
+\text{Pr}[d_1 - t > 0] &\le 0.01
+\\
+\text{Pr}[d_2 - t > 0] &\le 0.01
+\\
+\text{Pr}[k - L > 0] &\le 0.01
+\\
+\text{Pr}[5 - V_2 > 0] &\le 0.01
+\\
+\text{Pr}[10^{-5} - 0.05\pi d_2^2V_2 > 0] &\le 0.01
+\\
+\text{Pr}[d_2 - d_1 > 0] &\le 0.01
+\end{aligned}
+$$
+
+Tested with SQP algorithm. Although the answers is close to our optimal,
+but those answers are not feasible. Returned flag -2.
+We tried Genetic Algorithm, the flag is still -2.
+The problem is that the failure of constraint 4 and 5.
+We also tried to changed the constraint 4 and 5. The result didn’t change drastically and the flag is still -2 too.
+We speculate that the feasible region is very small, making it extremely unreliable when used.
+
+| $L$ | $d_1$ | $d_2$ | Answer | Times | Feasible |
+|:---:|:-----:|:-----:|:------:|:-----:|:--------:|
+| 4.3409 | 0.00001 | 0.000007 | 9.7821 | $10^6$ | No |
+| 4.5315 | 0.00001 | 0.000009 | 10.2013 | $10^6$ | No |
+| 5.2086 | 0.0109 | 0.01096 | 11.6909 | $10^6$ | No |
+| 6.6587 | 0.3069 | 0.000001 | 14.8813 | $10^6$ | No |
+
 ## First Order Second Moment Method
+
+The formulation of FOSM are:
+
+$$
+\begin{aligned}
+\mu_{g_i} &= g_i(x)
+\\
+\sigma_{g_i} &= \sqrt{\sum_j(\frac{\partial g_i}{\partial x_j}\sigma_{x_j})^2}
+\\
+G_i &= 1 - \text{normcdf}(-\frac{\mu_{g_i}}{\sigma_{g_i}}) - 0.001 \le 0
+\end{aligned}
+$$
+
+The partial differential of the constraints can be determined by:
+
+$$
+\frac{\partial g_i}{\partial x_j} = \left. \frac{g_i(x_0, \dots, x_j + \Delta x_j, \dots) - g_i(x)}{\Delta x_j} \right |_{\Delta x_j\rightarrow 0^+}
+$$
+
+For the variables $L$, $d_1$ and $d_2$, the $\sigma_{g_i}$ will be:
+
+$$
+\begin{aligned}
+\sigma_{g_1} &= \sqrt{\sigma_{d_1}^2}
+\\
+\sigma_{g_2} &= \sqrt{\sigma_{d_2}^2}
+\\
+\sigma_{g_3} &= \sqrt{\sigma_L^2}
+\\
+\sigma_{g_4} &= \sqrt{\begin{aligned}
+&\left ( \frac{-2d_2atm}{32\mu(L - k)} \right ) ^2\sigma_{d_2}^2
+\\
+&+ \left ( \frac{-128\tau\mu(L - k) - 32\mu(\frac{4F}{\pi} - 4\tau(L - k) - d_2^2atm)}{[32\mu(L - k)]^2} \right ) ^2\sigma_L^2
+\end{aligned}}
+\\
+\sigma_{g_5} &= \sqrt{\begin{aligned}
+&\left ( \frac{0.2\pi d_2^3}{32\mu(L - k)} \right ) ^2\sigma_{d_2}^2
+\\
+&+ \left ( \frac{-6.4\tau\pi d_2^2\mu(L - k) - 32\mu\pi d_2^2(\frac{4F}{\pi} - 4\tau(L - k) - d_2^2atm)}{[32\mu(L - k)]^2} \right ) ^2\sigma_L^2
+\end{aligned}}
+\\
+\sigma_{g_6} &= \sqrt{\sigma_{d_1}^2 + \sigma_L^2}
+\end{aligned}
+$$
+
+The exit flag is -2 using SQP algorithm.
+We guess the feasible solution region is very small, so we change the coefficient of variation $\frac{\sigma}{\mu}$.
+But after the test, use $\frac{\sigma}{\mu} = 10^{-1}$ and larger number will become more stable until 5,
+and smaller number will cause the input variables become upper bounds.
+The result shows that the center of random number for optimal is found.
+
+| $L$ | $d_1$ | $d_2$ | Answer | Feasible |
+|:---:|:-----:|:-----:|:------:|:--------:|
+| 2.353524447 | 0.027011147 | 0.010828176 | 5.409964069 | Yes |
+
+Use FOSM result as initial point, do the Monte Carlo method.
+Which is generate first two similar results respect to the optimal and the result of FOSM.
+It shows that the result of FOSM is close to the answer.
+
+| $L$ | $d_1$ | $d_2$ | Answer | Feasible |
+|:---:|:-----:|:-----:|:------:|:--------:|
+| 1.967025574 | 0.003117565 | 0.002962308 | 4.559469337 | Yes |
+| 4.280508898 | 0.001712652 | 0.000326894 | 9.64911993 | No |
+| 4.841510023 | 0.000001 | 0.000001 | 10.8833220 | No |
 
 # Matlab Programming
 
@@ -319,5 +418,14 @@ end
 ```
 
 # Summary
+
+We found that the result values of our optimization doesn’t close to reality,
+because the plastic wall friction is to small to constraint the velocity of the water flow.
+The velocity of water flow can use different material to control.
+
+After apply the uncertainty analysis, we found the feasible region is too small to handle.
+The reason might be the distortion of our constant values.
+The value changes (variables, constants, constraints and algorithm options) were tried but the solution of FOSM is not meet the idea.
+Because of the above reasons, we cannot make a actual finished product.
 
 # Bibliography
