@@ -10,13 +10,13 @@ h1 = 13e-2;  % cm
 h2 = 5.5e-2;  % cm
 h3 = 4e-2;  % cm
 t = 4e-2;  % cm
-mu = 0.02;
-tao = 12;  % Pa
+mu = 0.4;
+tao = 130;  % Pa
 atm = 101325;  % Pa
 c = 2e-2;  % cm
-mu_sigma = 0.1;  % mu / sigma
+mu_sigma = 5;  % mu / sigma
 
-x = [4.5, 0.01, 0.01];
+x = [0.3, 0.01, 0.01];
 lb = 1e-6 * [1, 1, 1];
 ub = 20 * [1, 1, 1];
 op1 = optimoptions(@fmincon, 'Algorithm', 'sqp', 'Display', 'off');

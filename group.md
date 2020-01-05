@@ -29,13 +29,15 @@ Because of Manufacturing tolerance, Measurement error and many instabilities,
 the optimization process needs to do an uncertainty analysis.
 There are two types of analysis, Monte Carlo Method and First Order Second Moment (FOSM) Method.
 These two methods will used for mutual verification.
-Same as the normal optimization process, these two methods will use SQP algorithm and GA to test their reliability.
+Same as the normal optimization process,
+these two methods will use SQP algorithm and GA to test their reliability.
 
 This report is the final report of the water gun design, all the process are doing by Matlab software.
 And the PDF file of the report is made by Markdown and Pandoc software,
 which is translated into LaTex format and output a well done mathematical formulation format.
 The public link of our sources and resources can be found on the bibliography section.
-If you have any questions about them, the manual can guide you to regenerate this document.
+If you have any questions about them or see the history,
+the manual can guide you to regenerate this document.
 
 # Introduction
 
@@ -74,8 +76,8 @@ The constants are shown as following:
 | $h_2$ | $5.5\times 10^{-2}$ | m |
 | $t$ | $4\times 10^{-2}$ | m |
 | $c$ | $2\times 10^{-2}$ | m |
-| $\mu$ | $0.02$ | friction |
-| $\tau$ | $12$ | Pa |
+| $\mu$ | $0.4$ | friction |
+| $\tau$ | $130$ | Pa |
 | $atm$ | $101325$ | Pa |
 
 The objective function and constraints are:
@@ -125,7 +127,7 @@ The result shows that the SQP algorithm found the convergence result successfull
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 4.52 | 0.01 | 0.003 | 10.1783 | Yes |
+| 0.4602277536 | 0.01 | 0.0035682482 | 1.2445010578 | Yes |
 
 ![](img/normal.png)
 
@@ -162,10 +164,7 @@ We speculate that the feasible region is very small, making it extremely unrelia
 
 | $L$ | $d_1$ | $d_2$ | Answer | Times | Feasible |
 |:---:|:-----:|:-----:|:------:|:-----:|:--------:|
-| 4.3409 | 0.00001 | 0.000007 | 9.7821 | $10^6$ | No |
-| 4.5315 | 0.00001 | 0.000009 | 10.2013 | $10^6$ | No |
-| 5.2086 | 0.0109 | 0.01096 | 11.6909 | $10^6$ | No |
-| 6.6587 | 0.3069 | 0.000001 | 14.8813 | $10^6$ | No |
+| 0.4452676716 | 0.0221296812 | 0.000001 | 1.2115888776 | $10^6$ | No |
 
 ## First Order Second Moment Method
 
@@ -221,7 +220,7 @@ The result shows that the center of random number for optimal is found.
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 2.353524447 | 0.027011147 | 0.010828176 | 5.409964069 | Yes |
+| 0.0867912862 | 0.0033586149 | 0.0003150752 | 0.4229408297 | Yes |
 
 Use FOSM result as initial point, do the Monte Carlo method.
 Which is generate first two similar results respect to the optimal and the result of FOSM.
@@ -229,9 +228,7 @@ It shows that the result of FOSM is close to the answer.
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 1.967025574 | 0.003117565 | 0.002962308 | 4.559469337 | Yes |
-| 4.280508898 | 0.001712652 | 0.000326894 | 9.64911993 | No |
-| 4.841510023 | 0.000001 | 0.000001 | 10.8833220 | No |
+| 0.0881097418 | 0.0022012109 | 0.0030204594 | 0.4258414321 | No |
 
 # Matlab Programming
 
@@ -254,8 +251,8 @@ h1 = 13e-2;  % cm
 h2 = 5.5e-2;  % cm
 h3 = 4e-2;  % cm
 t = 4e-2;  % cm
-mu = 0.02;
-tao = 12;  % Pa
+mu = 0.4;
+tao = 130;  % Pa
 atm = 101325;  % Pa
 c = 2e-2;  % cm
 mu_sigma = 5;  % mu / sigma
@@ -417,7 +414,9 @@ end
 end
 ```
 
-# Summary
+# Summary and Future
+
+## Summary
 
 We found that the result values of our optimization doesn’t close to reality,
 because the plastic wall friction is to small to constraint the velocity of the water flow.
@@ -425,7 +424,14 @@ The velocity of water flow can use different material to control.
 
 After apply the uncertainty analysis, we found the feasible region is too small to handle.
 The reason might be the distortion of our constant values.
-The value changes (variables, constants, constraints and algorithm options) were tried but the solution of FOSM is not meet the idea.
+The value changes (variables, constants, constraints and algorithm options)
+were tried but the solution of FOSM is not meet the idea.
 Because of the above reasons, we cannot make a actual finished product.
+
+## Future
+
+For Genetic Algorithm, we think the penalty function in Matlab are the reason of the failure.
+If the algorithms in this project are fully controllable [@group-meta], the optimization process will be more easier.
+In future, we hope the optimization theory can be apply with different ways.
 
 # Bibliography
