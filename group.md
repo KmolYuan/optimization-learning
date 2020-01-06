@@ -94,7 +94,7 @@ g_3 &= k - L \le 0
 \\
 g_4 &= 5 - V_2 \le 0
 \\
-g_5 &= 10^{-5} - 0.05\pi d_2^2V_2 \le 0
+g_5 &= 10^{-5} - 0.1\pi d_2^2V_2 \le 0
 \\
 g_6 &= d_2 - d_1 \le 0
 \\
@@ -127,7 +127,7 @@ The result shows that the SQP algorithm found the convergence result successfull
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 0.4602277536 | 0.01 | 0.0035682482 | 1.2445010578 | Yes |
+| 0.4613322998 | 0.01 | 0.0025231325 | 1.2469310595 | Yes |
 
 ![](img/normal.png)
 
@@ -149,7 +149,7 @@ $$
 \\
 \text{Pr}[5 - V_2 > 0] &\le 0.01
 \\
-\text{Pr}[10^{-5} - 0.05\pi d_2^2V_2 > 0] &\le 0.01
+\text{Pr}[10^{-5} - 0.1\pi d_2^2V_2 > 0] &\le 0.01
 \\
 \text{Pr}[d_2 - d_1 > 0] &\le 0.01
 \end{aligned}
@@ -164,7 +164,7 @@ We speculate that the feasible region is very small, making it extremely unrelia
 
 | $L$ | $d_1$ | $d_2$ | Answer | Times | Feasible |
 |:---:|:-----:|:-----:|:------:|:-----:|:--------:|
-| 0.4452676716 | 0.0221296812 | 0.000001 | 1.2115888776 | $10^6$ | No |
+| 0.2999932759 | 0.0099999357 | 0.0099964293 | 0.8919852070 | $10^6$ | No |
 
 ## First Order Second Moment Method
 
@@ -212,7 +212,7 @@ $$
 \end{aligned}
 $$
 
-The exit flag is 0 when using SQP algorithm.
+The exit flag is -2 when using SQP algorithm.
 We guess the feasible solution region is very small, so we change the coefficient of variation $\frac{\sigma}{\mu}$.
 But after the test, use $\frac{\sigma}{\mu} = 10^{-1}$ and larger number will become more stable until 5,
 and smaller number will cause the input variables become upper bounds.
@@ -220,7 +220,7 @@ The result shows that the center of random number for optimal is found.
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 0.0867912862 | 0.0033586149 | 0.0003150752 | 0.4229408297 | Yes |
+| 0.0954132312 | 0.0034968992 | 0.0005002174 | 0.4419091086 | Yes |
 
 Use FOSM result as initial point, do the Monte Carlo method.
 Which is generate a similar results respect to the result of FOSM.
@@ -228,7 +228,7 @@ It shows that the result of FOSM is close to the answer.
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
 |:---:|:-----:|:-----:|:------:|:--------:|
-| 0.0881097418 | 0.0022012109 | 0.0030204594 | 0.4258414321 | No |
+| 0.0979185071 | 0.0018114095 | 0.0012746655 | 0.4474207156 | Yes |
 
 # Matlab Programming
 
@@ -322,7 +322,7 @@ C(1) = d1 - t;
 C(2) = d2 - t;
 C(3) = k - L;
 C(4) = 5 - v2;
-C(5) = 1e-5 - pi * d2^2 * v2 * 0.05;
+C(5) = 1e-5 - pi * d2^2 * v2 * 0.1;
 C(6) = d2 - d1;
 Ceq = [];
 end
@@ -350,7 +350,7 @@ C(1) = Pr(d1 - t > 0);
 C(2) = Pr(d2 - t > 0);
 C(3) = Pr(k - L > 0);
 C(4) = Pr(5 - v2 > 0);
-C(5) = Pr(1e-5 - pi * d2.^2 .* v2 * 0.05 > 0);
+C(5) = Pr(1e-5 - pi * d2.^2 .* v2 * 0.1 > 0);
 C(6) = Pr(d2 - d1 > 0);
 C = C - success_rate;
 
@@ -376,7 +376,7 @@ mu_g(2) = d2 - t;
 mu_g(3) = k - L;
 mu_g(4) = 5 - (4 * F / pi - 4 * tao * (L - k) - atm * d2^2) / (32 * mu * (L - k));
 mu_g(5) = 1e-5 - pi * d2^2 * (4 * F / pi - 4 * tao * (L - k) - atm * d2^2) /...
-          (32 * mu * (L - k)) * 0.05;
+          (32 * mu * (L - k)) * 0.1;
 mu_g(6) = d2 - d1;
 
 sig = (x * mu_sigma).^2;
@@ -421,6 +421,10 @@ end
 We found that the result values of our optimization doesn’t close to reality,
 because the plastic wall friction is to small to constraint the velocity of the water flow.
 The velocity of water flow can use different material to control.
+
+The samples of four results shown as following:
+
+![](img/sample.png)
 
 After apply the uncertainty analysis, we found the feasible region is too small to handle.
 The reason might be the distortion of our constant values.
