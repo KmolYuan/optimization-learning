@@ -212,7 +212,7 @@ $$
 \end{aligned}
 $$
 
-The exit flag is -2 using SQP algorithm.
+The exit flag is 0 when using SQP algorithm.
 We guess the feasible solution region is very small, so we change the coefficient of variation $\frac{\sigma}{\mu}$.
 But after the test, use $\frac{\sigma}{\mu} = 10^{-1}$ and larger number will become more stable until 5,
 and smaller number will cause the input variables become upper bounds.
@@ -223,7 +223,7 @@ The result shows that the center of random number for optimal is found.
 | 0.0867912862 | 0.0033586149 | 0.0003150752 | 0.4229408297 | Yes |
 
 Use FOSM result as initial point, do the Monte Carlo method.
-Which is generate first two similar results respect to the optimal and the result of FOSM.
+Which is generate a similar results respect to the result of FOSM.
 It shows that the result of FOSM is close to the answer.
 
 | $L$ | $d_1$ | $d_2$ | Answer | Feasible |
