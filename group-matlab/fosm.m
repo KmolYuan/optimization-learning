@@ -18,7 +18,7 @@ mu_g(1) = d1 - t;
 mu_g(2) = d2 - t;
 mu_g(3) = k - L;
 mu_g(4) = 5 - v2;
-mu_g(5) = 1e-5 - pi * d2^2 * v2 * 0.05;
+mu_g(5) = 1e-5 - pi * d2^2 * v2 * 0.1;
 mu_g(6) = d2 - d1;
 
 sig = (x * mu_sigma).^2;
