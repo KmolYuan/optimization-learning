@@ -164,7 +164,7 @@ We speculate that the feasible region is very small, making it extremely unrelia
 
 | $L$ | $d_1$ | $d_2$ | Answer | Times | Feasible |
 |:---:|:-----:|:-----:|:------:|:-----:|:--------:|
-| 0.2999932759 | 0.0099999357 | 0.0099964293 | 0.8919852070 | $10^6$ | No |
+| 0.2999932759 | 0.0099999357 | 0.0099964293 | 0.8919852070 | $10^6$ | Yes |
 
 ## First Order Second Moment Method
 
